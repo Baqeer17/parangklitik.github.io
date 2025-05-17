@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Cerpen - Parang Klitik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Lato:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --warna-coklat: #5d4037;
+        --warna-coklat-muda: #d7ccc8;
+        --warna-emas: #c9a55f;
+        --warna-putih: #fafafa;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lato", sans-serif;
+      }
+
+      body {
+        background-color: var(--warna-putih);
+        color: var(--warna-coklat);
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--warna-coklat);
+        padding: 15px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 100;
+        width: 100%;
+      }
+
+      header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: repeating-linear-gradient(
+          45deg,
+          var(--warna-emas),
+          var(--warna-emas) 10px,
+          var(--warna-coklat-muda) 10px,
+          var(--warna-coklat-muda) 20px
+        );
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-img {
+        width: 50px;
+        height: 50px;
+        border: 2px solid var(--warna-emas);
+        border-radius: 50%;
+        object-fit: contain;
+        margin-right: 15px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 5px;
+      }
+
+      .logo-text {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        color: var(--warna-putih);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-text span {
+        color: var(--warna-emas);
+        font-weight: 300;
+        margin-left: 5px;
+      }
+
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 21px;
+        cursor: pointer;
+        z-index: 200;
+      }
+
+      .menu-toggle span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background-color: var(--warna-putih);
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      nav {
+        transition: transform 0.3s ease;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+      }
+
+      nav ul li {
+        margin-left: 20px;
+      }
+
+      nav ul li a {
+        color: var(--warna-putih);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: 1px;
+        transition: color 0.3s;
+        position: relative;
+        padding: 8px 0;
+      }
+
+      nav ul li a:hover {
+        color: var(--warna-emas);
+      }
+
+      nav ul li a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--warna-emas);
+        transition: width 0.3s;
+      }
+
+      nav ul li a:hover::after {
+        width: 100%;
+      }
+
+      /* Cerpen Section */
+      .cerpen-section {
+        padding: 60px 0;
+        min-height: calc(100vh - 350px); /* Account for header and footer */
+      }
+
+      .cerpen-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+      }
+
+      .cerpen-header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--warna-coklat-muda);
+        padding-bottom: 20px;
+      }
+
+      .cerpen-header h1 {
+        font-family: "Cormorant Garamond", serif;
+        color: var(--warna-coklat);
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .cerpen-header .meta {
+        color: #777;
+        font-style: italic;
+        font-size: 14px;
+      }
+
+      /* Styling untuk konten cerpen */
+      .cerpen-content {
+        font-size: 17px;
+        line-height: 1.5;
+        color: #333;
+        white-space: pre-line; /* Mempertahankan jeda baris */
+        text-align: justify; /* Meratakan teks */
+        hyphens: auto; /* Mengaktifkan pemisahan kata otomatis jika diperlukan */
+        word-spacing: 0.05em; /* Jarak antar kata */
+        letter-spacing: 0.01em; /* Jarak antar huruf */
+      }
+
+      .cerpen-content p {
+        margin-bottom: 0px;
+        text-align: justify;
+        text-indent: 2em; /* Indentasi awal paragraf */
+      }
+
+
+
+      /* Styling untuk dialog dalam cerpen */
+      .cerpen-content .dialog {
+        font-style: italic;
+        margin: 0px 0;
+      }
+
+      /* Styling untuk penekanan teks */
+      .cerpen-content em {
+        color: var(--warna-coklat);
+        font-style: italic;
+      }
+
+      /* Styling untuk bagian yang penting */
+      .cerpen-content strong {
+        color: var(--warna-coklat);
+        font-weight: bold;
+      }
+      .cerpen-divider {
+        text-align: center;
+        margin: 0 0;
+        color: var(--warna-emas);
+        font-size: 24px;
+        position: relative;
+      }
+
+      .cerpen-divider::before,
+      .cerpen-divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 30%;
+        height: 1px;
+        background-color: var(--warna-coklat-muda);
+      }
+
+      .cerpen-divider::before {
+        left: 0;
+      }
+
+      .cerpen-divider::after {
+        right: 0;
+      }
+
+      footer {
+        background-color: var(--warna-coklat);
+        color: var(--warna-putih);
+        padding: 40px 0 20px;
+        text-align: center;
+        position: relative;
+        width: 100%;
+      }
+
+      footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: repeating-linear-gradient(
+          45deg,
+          var(--warna-emas),
+          var(--warna-emas) 10px,
+          var(--warna-coklat-muda) 10px,
+          var(--warna-coklat-muda) 20px
+        );
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .footer-logo h3 {
+        font-size: 22px;
+        color: var(--warna-emas);
+        font-family: "Cormorant Garamond", serif;
+        letter-spacing: 1px;
+      }
+
+      .footer-separator {
+        width: 100%;
+        border: 1px solid var(--warna-emas);
+        margin-top: 10px;
+      }
+
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 0 20px;
+      }
+
+      .social-icons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .social-icons img {
+        width: 40px;
+        height: 40px;
+        transition: transform 0.3s ease;
+      }
+
+      .social-icons img:hover {
+        transform: scale(1.1);
+      }
+
+      .footer-copyright {
+        color: var(--warna-putih);
+        font-size: 14px;
+      }
+
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--warna-putih);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s;
+      }
+
+      .loader {
+        width: 50px;
+        height: 50px;
+        border: 3px solid var(--warna-coklat-muda);
+        border-top: 3px solid var(--warna-emas);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 120;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .menu-overlay.active {
+        display: block;
+        opacity: 1;
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+
+        nav {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 70%;
+          height: 100vh;
+          background-color: var(--warna-coklat);
+          flex-direction: column;
+          justify-content: center;
+          transform: translateX(100vw);
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+          z-index: 150;
+        }
+
+        nav.active {
+          transform: translateX(0);
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        nav ul li {
+          margin: 20px 0;
+        }
+
+        nav ul li a {
+          font-size: 18px;
+          padding: 10px;
+        }
+
+        footer {
+          padding-bottom: 80px;
+        }
+
+        .footer-bottom {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .social-icons {
+          order: 1;
+        }
+
+        .footer-copyright {
+          order: 2;
+        }
+
+        .cerpen-container {
+          padding: 20px;
+        }
+
+        .cerpen-header h1 {
+          font-size: 24px;
+        }
+      }
+
+      @media (max-width: 375px) {
+        .logo-img {
+          width: 45px;
+          height: 45px;
+        }
+
+        .logo-text {
+          font-size: 18px;
+        }
+
+        .menu-toggle {
+          width: 25px;
+          height: 18px;
+        }
+
+        .cerpen-container {
+          padding: 15px;
+        }
+
+        .cerpen-header h1 {
+          font-size: 22px;
+        }
+
+        .cerpen-content {
+          font-size: 16px;
+        }
+
+        .footer-logo h3 {
+          font-size: 18px;
+        }
+
+        .social-icons img {
+          width: 35px;
+          height: 35px;
+        }
+
+        .footer-copyright {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-screen">
+      <div class="loader"></div>
+    </div>
+
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo-container">
+            <img src="logo.png" alt="Logo" class="logo-img" />
+            <div class="logo-text">Parang<span>Klitik</span></div>
+          </div>
+          <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <nav id="mainNav">
+            <ul>
+              <li><a href="homepage.html">Beranda</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <main class="cerpen-section" id="Cerpen">
+      <div class="container">
+        <div class="cerpen-container">
+          <div class="cerpen-header">
+            <h1>THE PATTERN</h1>
+            <div class="meta">Oleh: Aran Wiraya | Tanggal: 22 Mei 2025</div>
+          </div>
+          <div class="cerpen-content">
+            <p>Alkisah, di sebuah negeri megah bernama Klatrawijaya, negeri tersebut terkenal dengan pusaka kainnya yang sangat tersohor. Pada masa itu, negeri ini didominasi oleh dua keluarga besar, yaitu keluarga Wijaya, yang merupakan keluarga kerajaan dan menguasai politik kerajaan, serta keluarga Wiraya, yang mendominasi militer dan ekonomi kerajaan. Konon, terdapat sebuah ramalan yang menyebutkan bahwa akan lahir dua sosok besar dari kedua keluarga penguasa ini yang ditakdirkan untuk berjalan beriringan. Meskipun berasal dari garis keluarga yang berbeda, keduanya mengusung nama 'Wijaya' dan 'Wiraya' sebagai tanda kehormatan, dan keduanya dikenal sebagai bagian dari keluarga kerajaan Klatrawijaya.</p>
+            </p>
+            <div class="cerpen-divider">❖ ❖ ❖</div>
+            <p class="dialog">“Aran..Aran…” ucap putri litik kecil sesampainya di taman kerajaan dan mendapati orang yang dipanggilnya tertidur santai di atas batang pohon besar.</p>
+            <p class="dialog">“Aran Bangun…” ucap putri litik dengan mengadahkan pandangannya menuju Aran</p>
+            <p>Seorang anak laki laki mengangkat lembaran dluwah dari mukanya dan mendapati putri litik memanggilnya, ia segera turun lincah dari pohon melalui  ranting dan batang pohon besar.</p>
+            <p class="dialog">“ada apa tuan putri litik?”tanya aran dengan sedikit membungkukkan tubuhnya, memberi hormat.</p>
+            <p class="dialog">“aku butuh teman, ayo bermain bersama” ajak putri litik kecil riang</p>
+            <p class="dialog">“baik tuan putri” jawab aran disambut dengan langkah kaki mereka berdua yang berlari beriringan. Diantara pepohonan kamboja yang mekar sepanjang tahun.</p>
+            <p>Keduanya berbagi tawa, rahasia kecil dan janji sederhana untuk saling menjaga antara satu sama lain. Aran adalah orang terdekat putri Litik, selain karena mereka tumbuh bersama sedari belia, hal ini disebabkan karena Putri litik adalah pewaris takhta tunggal dan tidak memiliki saudara kandung, sehingga putri Litik menganggap aran sebagai teman, orang kepercayaan dan saudaranya, meski berbeda marga</p>
+            <p>Tahun demi tahun pun berlalu, dan persahabatan mereka berkembang saling melengkapi, Putri Litik Wijaya tumbuh menjadi seorang putri anggun yang bersahaja dengan paras menawan yang sangat mencirikan warga Wijaya yang terkenal dengan keanggunan dan kepemimpinannya. Disisi lain Aran Wiraya tumbuh menjadi pemuda bangsawan  gagah dan cerdas yang sangat mencirikan warga Wiraya yang terkenal dengan kecerdasan dan ketangguhan fisiknya. Tak terasa kini putri Litik resmi dinobatkan menjadi bakal putri Mahkota dan diwaktu yang bersamaan Aran juga resmi dinobatkan menjadi kepala Pengawal kerajaan yang memiliki tugas khusus untuk menjaga dan mengawal bakal calon putri mahkota, Putri Litik.</p>
+            <p>Bagi sebagian besar rakyat, keputusan itu adalah langkah yang bijak. Aran tidak hanya tangguh dalam bertarung, namun juga memahami setiap gerak dan maksud Putri Litik sebab mereka berdua telah tumbuh bersama sedari kecil didukung dengan kecerdasan Aran yang mampu mempelajari sesuau dengan cepat. Maka tidak ada penjaga yang lebih tepat untuk menjadi pengawal pribadi pewaris takhta kerajaan Klatrawijaya selain dirinya.</p>
+            <div class="cerpen-divider">❖ ❖ ❖</div>
+            <p>Samatva, merupakan sebuah pola kain yang menjadi pusaka kerajaan Klatrawijaya, Samatva melambangkan kesempurnaan dengan keselarasan antara kekuatan dan kelembutan. Konon menurut legenda, Samatva berasal dari ratusan tahun lalu lamanya. dahulu terdapat seorang maharesi nan sakti yang mencapai puncak keseimbangan jiwa setelah bermeditasi puluhan tahun, namun setelah dirinya selesai bermeditasi ia mendapati bahwa dunia tengah diterpa kekacauan besar, ketika manusia tidak lagi dapat mengendalikan dirinya, keegoisan dan kekuatan membutakan akal pikiran, kelembutan telah sirna dari hati manusia, pada akhirnya  sang maharesi mengerahkan seluruh kekuatannya yang ia peroleh dari meditasinya puluhan tahun demi menolong seluruh umat manusia, ia menyerahkan dirinya pada kahyangan sehingga langit berguncang dan sebuah pola terukir di langit menaungi seluruh daratan, hal itu sangat mengguncang umat manusia sehingga tidak ada satupun manusia yang tidak mengadahkan pandangannya demi melihat pola aneh dilangit, tiba tiba tanah berguncang keras, terbelah dan menelan semua manusia yang telah dibutakan oleh kekuatan dan keegoisan, lalu tanah yang merekah kembali tertutup dan sehelai kain jatuh dari langit dengan pola yang sama seperti yang ada di langit sebelum bumi menelan orang orang yang dibutakan keegoisan dan kekuatan, sehingga hanya menyisakan lebih sedikit manusia yang hidup. Manusia yang tersisa akhirnya memutuskan untuk membuat pemukiman dan berkembang menjadi sebuah kerajaan bernama Klatrawijaya dan pola pada sehelai kain tersebut di beri nama Samatva, atau representasi dari Kekuatan di dalam kelembutan yang merupakan kesempurnaan hidup. </p>
+            <p>Hingga kini Samatva menjadi pusaka paling agung kerajaan Klatrawijaya yang dijaga ketat, banyak orang meyakini bahwa Samatva dapat menjaga sebuah peradaban dari keegoisan dan kebutaan kekuasaan yang disebabkan oleh kekuatan yang disalahgunakan. Kepercayaan ini terus berkembang dan meluas hingga ke negri-negri tetangga sehingga hal ini sangat berpotensi menimbulkan rasa dengki,iri dan ingin saling merebut pusaka tersebut dari kerajaan Klatrawijaya.</p>
+            <p>Dan benar saja, ancaman pun datang tanpa diundang, negri tetangga, Suratanagara, mulai memperlihatkan gelagat tidak bersahabat hingga hal tersebut masuk kedalam istana, bisikan tentang pengkhianatan terdengar di dalam istana. Para prajurit disiagakan, keamanan diperketat dan Aran memerintahkan untuk melakukan pengawasan penuh di setiap sudut istana. Namun hal tersebut tidak membuat pengawalannya terhadap putri litik menjadi lengah. Bagi Aran menjaga putri Litik bukan hanya sekedar tugas, itu adalah bentuk penghormatan dan pengabdiannya pada Klatrawijaya dan menjaga Pusaka Samatva berarti juga menjaga jiwa dari kerajaan Klatrawijaya.</p>
+            <p>Ketika keadaan mulai memulih dan Istana kembali tenang, kabar mengejutkan datang dari dalam istana. Seorang bangsawan tinggi kerajaan yang dikenal dekat dengan Suratanagara, ditangkap karena dugaan pengkhianatan. Tak lama setelah itu Aran segera menyelidiki kasus tersebut dan menemukan bahwa selama ini ada upaya untuk merusak kepercayaan rakyat terhadap putri Litik dan berusaha merebut pusaka agung kerajaan dengan menyebarkan isu bahwa Samatva hanyalah simbol kosong tanpa makna. Kabar tersebut tentu sangat mengguncang Negri Klatrawijaya baik penghuni kerajaan hingga rakyat kecil.</p>
+            <p>Putri Litik yang menyadari hal ini pun sangat terguncang, dirinya hanya berdiam diri didalam kamar seharian, Aran yang tergerak hatinya untuk berempati pada putri Litik terus menunggu putri Litik keluar dan sesekali mengetuk pintu kamar, dirinya tampak sangat khawatir Putri Litik melakukan hal-hal yang tidak diinginkan di dalam sana.</p>
+            <p>Setelah menunggu seharian di depan kamar putri Litik. Akhirnya putri Litik pun keluar dari kamarnya, seketika membuat Aran yang hampir terlelap terbangun dari tidurnya.</p>
+            <p class="dialog">“Salam Tuan putri, apakah anda baik baik saja?” Ucap Aran khawatir namun penuh penghormatan</p>
+            <p>Putri Litik hanya menjawab dengan mengangkat rendah telapak tangannya pertanda dia baik-baik saja lalu berjalan meninggalkan Aran. Namun, Aran yang mengerti betul kondisi hati putri Litik hanya sedikit menyunggingkan senyum lalu kembali berucap</p>
+            <p class="dialog">“Bisa ikut saya ke taman istana?”ucap Aran disusul Putri Litik yang menghentikan langkahnya.</p>
+            <p>Aran memang pandai memosisikan dirinya, memahami situasi dengan cepat dan memberikan reaksi yang tepat, dalam situasi saat ini, yang putri litik butuhkan bukanlah pengawalan ketat. Namun teman, teman untuk berbagi rasa sakit, teman untuk berbagi rasa beratnya hidup. Oleh karena itu, kini Aran tidak berbicara layaknya pengawal pribadi dan Tuan putri, Namun berbicara layaknya antar teman. </p>
+            <p>Putri Litik membalikan badannya lalu berjalan menuju aran dengan pandangan menunduk. Hingga pada akhirnya mereka berjalan menyusuri koridor istana menuju ke taman istana, sepanjang perjalanan putri Litik terus memandang keluar menuju rembulan melalui jendela koridor istana, dan tentu hal itu disadari oleh Aran.</p>
+            <p>Sesampainya di taman istana Aran membawa putri litik menuju sebuah pohon besar yang tampak sudah sangat lama berada disana, Aran segera menaiki salah satu ranting dari pohon tersebut lalu kembali menghadap kepada putri Litik.</p>
+            <p class="dialog">“kemari, aku akan bantu kau naik” Ucap Aran pada putri litik layaknya seorang teman.</p>
+            <p>Putri Litik menyanggupinya, melangkah mendekat dan menaiki ranting tersebut dibantu Aran. Perlahan mereka saling membantu untuk naik menuju puncak pohon hingga pada akhirnya mereka mencapai puncak pohon tersebut dan dapat melihat jelas langit malam yang hening.</p>
+            <p class="dialog">“Jadi, kenapa kita kesini?” tanya Putri Litik pada Aran</p>
+            <p class="dialog">“Menikmati Rembulan…Bukankah itu yang kau cari dari tadi?” Jawab Aran </p>
+            <p>Putri Litik hanya mengangguk sekilas lalu kembali mengadahkan pandangannya menuju rembulan di langit malam.</p>
+            <p class="dialog">“kamu tau kenapa manusia selalu memandangi rembulan?..padahal ada ribuan bintang disana, dan satu bintang besarnya bisa setara dengan ribuan rembulan, mengapa manusia selalu melihat rembulan?” Ucap Aran tiba-tiba membuat putri Litik mengalihkan pandangannya menuju Aran.</p>
+            <p class="dialog">“kenapa?...” tanya Putri Litik penasaran</p>
+            <p class="dialog">“karena pada hakikatnya manusia hanya percaya pada apa yang ada paling dekat dengannya, jelas dalam indranya dan yang dapat memeluk hangat relung hatinya dari indranya, itulah manusia, tak peduli sekuat dan sebesar apapun hal itu, jika ia tampak jauh, terasa dingin dan hampa,maka manusia tidak akan pernah melirik hal tersebut.” Jawab Aran</p>
+            <p class="dialog">“Jadi?...” Tanya Putri Litik semakin bingung, membuat aran kembali menyunggingkan sedikit senyumnya.</p>
+            <p class="dialog">“Bagaimana rakyat bisa kembali mempercayaimu jika kamu hanya berdiam diri dibalik pintu kamar?, Rakyat butuh sinar dirimu kembali yang hangat dan mengisi relung hati mereka, kembalilah menjadi rembulan bagi rakyat-“</p>
+            <p class="dialog">“Tidak bisa…aku tidak bisa, aku takut..” jawab putri Litik lemah lalu menundukkan pandangannya memotong perkataan Aran. Aran kembali menyunggingkan senyum.</p>
+            <p class="dialog">“Rembulan juga mengerti betul bahwa dirinya berkali kali lipat lebih kecil dibanding bintang dan aku yakin bulan juga sangat takut dan sangat menyerah jika dirinya harus menghadapi bintang. Namun bulan selalu memberanikan dirinya untuk maju dan hadir, dan satu hal yang bulan tak mengerti bahwa selama ini yang ada didalam hati manusia adalah rembulan, dirinya yang selalu ia takutkan kalah dengan bintang” Jawab Aran. Putri Litik mengadahkan pandangannya menatap Aran.</p>
+            <p class="dialog">“Begitupun dengan dirimu, jadilah rembulan. Meski kamu merasa diri kamu lebih kecil dibanding bencana yang menerpa, tetaplah berani untuk maju dan hadir, hal yang bisa jadi kamu tidak ketahui adalah bahwa rakyat sangat rindu kehadiranmu ditengah-tengah mereka, dirimu yang selalu menebarkan rasa hangat di relung hati mereka” Lanjut Aran</p>
+            <p class="dialog">"Tapi bagaimana aku harus memulainya…aku benar-benar takut” jawab Putri Litik</p>
+            <p class="dialog">“Tenang Tuan Putri, aku sudah menyiapkan strateginya.” Balas Aran dengan sunggingan senyumnya seakan senang rencananya berhasil.</p>
+            <p>Pagi itu halaman Istana dipenuhi oleh Rakyat Klatrawijaya yang siap mendengarkan petuah dari calon Putri Mahkota Klatrawijaya. Putri litik keluar dari kamarnya lalu berjalan di koridor istana dengan di damping oleh Aran menuju balkon istana yang tepat berada di atas halaman istana. Sejenak Putri Litik menghembuskan nafasnya lalu mulai berjalan mendekat hingga rakyat kerajaan Klatrawijaya dapat melihatnya dan mulai berpidato di depan rakyatnya</p>
+            <p>Disisi lain, seorang mata-mata tampak terengah-engah berlari lalu membuka pintu besar di hadapannya dan segera berlutut.</p>
+            <p class="dialog">“Kabar buruk baginda raja, Putri Litik kembali berhasil mengambil hati dan kepercayaan rakyat Klatrawijaya” ucap mata-mata tersebut.</p>
+            <p class="dialog">“aku sudah dengar kabarnya, putri sialan itu…akan kupastikan Kerajaan Klatrawijaya akan menjadi bagian dari kerajaan Suratanagara yang agung ini, tidak aka nada penerus kekuasaan lagi” ucap sang Raja Suratanagara licik.</p>
+            <p class="dialog">“Apa yang putri sialan itu katakan hingga dapat mengembalikan kepercayaan rakyat laknatnya?” Tanya Raja Suratanagara dengan kesal </p>
+            <p class="dialog">“Putri litik kembali menceritakan kisah awal mula Samatva dan orasinya kembali mempersatukan rakyat Klatrawijaya.” Jawab mata-mata tersebut.</p>
+            <p class="dialog">“Samatva ya…pusaka yang dipercaya dapat melindungi sebuah peradaban dari bencana karena keegoisan dan kebutaan terhadap kekuasaan itu?” </p>
+            <p class="dialog">“Betul baginda raja” Jawab mata-mata tersebut. Membuat seutas senyum jahat raja suratanagara terukir.</p>
+            <p class="dialog">“Baiklah jika begitu…”ucap sang raja lalu berdiri dari singgasananya dan berjalan perlahan menuju tengah ruangan di tengah tengah penasihatnya</p>
+            <p class="dialog">“AKU RAJA KURAT SURATANAGARA MEMERINTAHKAN SELURUH PASUKAN TEMPUR KERAJAAN SURATANAGARA UNTUK MENYERANG KERAJAAN KLATRAWIJAYA BESOK PAGI!” Teriak sang raja di tengah ruangan. Hal itu disusul dengan seluruh penasihat dan pengawal pribadi sang raja yang keluar dari ruang utama untuk menyiapkan pasukan untuk bertempur dengan kekuatan penuh.</p>
+            <p class="dialog">“Seperti itukan yang putri sialan itu mau?...mari kita buktikan apakah kain itu benar benar berguna dalan mempertahankan kerajaan Klatrawijaya nanti” ucap jahat sang raja lalu keluar dari ruang utama, menyisakan sang mata-mata yang menunduk dengan pandangan ketakutan.</p>
+            <p>Pertarungan Takdir Rencana besar Suratanagara pun tiba, Rombongan besar pasukan besar mereka yang dipimpin sang raja Kurat Suratanagara bergerak menyeramkan menuju klatrawijaya. Aran yang mengetahui rencana penyerangan ini lewat para pasukan patroli  kerajaan pun segera menyiapkan pasukan terbaik kerajaan untuk mempertahankan Klatrawijaya.</p>
+            <p>Pasukan Suratanagara pun tiba di depan tembok kerajaan Klatrawijaya, Tanpa buang buang waktu pasukan suratanagara pun segera melakukan penyerangan yang disambut dengan penyerangan kembali oleh pasukan Klatrawijaya yang sedari lama telah siap bertempur, peperangan pun tak terelakkan, kedua belah pihak saling menyerang dan membunuh antara satu sama lain</p>
+            <p>Aran yang sedari awal pertempuran terus mengamati pertempuran dengan seksama mendapati bahwa tujuan dari peperangan ini pasti adalah putri Litik dan Samatva, ia pun segera meninggalkan peperangan dengan cepat untuk menyelamatkan putri Litik yang berlindung di istana serta membawa pusaka Samatva menuju tempat yang aman.</p>
+            <p>Sesampainya di istana Aran segera menjemput Putri Litik lalu menuju ke ruang pusaka Istana, disana Kain Samatva tampak lebih bersinar daripada biasanya, namun Aran yang terburu-buru tidak mengindahkan pemandangan indah tersebut, ia dengan cepat meraih pusaka Samatva dan mengemasnya. Namun, belum selesai berkemas tiba tiba pintu di dobrak dengan kencang, disana Raja Kurat Suratanagara sudah berdiri didampingi pasukan tempurnya dibelakangnya.</p>
+            <p class="dialog">“Jadi kau yang bernama Aran Wiraya, Kepala Pengawal kerajaan Klatrawijaya sekaligus menjadi pengawal pribadi Calon Putri Mahkota, Putri Litik Wijaya” ucap jahat sang raja sambil berjalan perlahan mendekati mereka berdua.</p>
+            <p>Aran yang mengetahui bahwa pasukannya telah kalah berusaha untuk melindungi Samatva dan Putri Litik. Ia mengeluarkan Tombaknya bersiap untuk menyerang. Sang raja menggerakkan tangannya memberi perintah kepada dua prajuritnya untuk menyerang Aran, namun dengan mudah aran menumbangkan mereka berdua. Geram dengan berlama-lama Raja Kurat Suratanagara menghunuskan sebuah parang yang merupakan senjata favoritnya dari sarung, bersiap untuk menyerang Aran. Sepersekian detik kemudian duel antara Aran dan raja Kurat Suratanagara terjadi begitu sengit. Putri Litik yang tak kuasa melihat Aran bertarung bersimpuh berdoa pada pemilik alam semesta agar mereka dapat diberi keselamatan.</p> 
+            <p>Aran yang menyadari posisinya semakin terpojok oleh serangan raja Kurat Suratanagara yang mematikan menyadari bahwa ia hampir tidak mungkin untuk memenangkan pertarungan ini. Ia mengeluarkan Pusaka Samatva yang sedari tadi ia sembunyikan dibalik pakaiannya berusaha mengecoh perhatian sang raja</p>
+            <p class="dialog">“bagaimana?...Kau sudah putus asa dengan legenda kekuatan kain sialan itu?”ucap sang raja disusul kekehan kecil ketawanya.</p> 
+            <p class="dialog">“Mungkin..”jawab aran singkat, lalu segera melempar kain itu </p>
+            <p class="dialog">“TUAN PUTRI CEPAT LARI” teriak aran lalu melompat kea rah yang berlawanan dengan dilemparnya kain Samatva, ia benar-benar berusaha mencoba mengecoh sang raja dengan membagi bagi perhatiannya.</p>
+            <p>Namun hal itu sia sia saja, Seperti telah mengetahui strategi Aran , dengan cepat raja Kurat menendang dada aran sebelum kaki aran mendarat di lantai hingga membuat aran terpental hingga menabrak tembok dan tombaknya terlepas dari tangannya. Tangan sang raja dengan mudah meraih kain Samatva yang jatuh perlahan sedangkan Putri Litik masih disana, khusyu berdoa. Kini aran benar-benar akan kehilangan semuanya.</p>
+            <p class="dialog">“Aku selalu penasaran apa kekuatan yang ada di balik kain sialan ini..namun nampaknya aku tidak perlu penasaran lagi, sebab kain ini hanyalah kain dengan ukiran aneh dan tanpa makna” ucap sang raja lalu menaruh kain Samatva di atas mata tajam parangnya.</p>
+            <p>Aran yang mengetahui bahwa sang raja akan merobek kain tersebut berusaha berdiri, namun sia sia saja, dirinya telah terluka lumayan parah. Sang raja pun melempar kain tersebut hingga menyentung langit langit ruangan lalu bersiap untuk merobek kain tersebut dengan parangnya. Namun, tiba-tiba keajaiban terjadi, ketika mata parang mulai merobek kain Samatva tiba tiba saja Putri litik berhenti dari doanya, matanya terbuka dan sinar terang keluar dari matanya, begitupun dengan kain Samatva, kain itu tiba tiba menyala terang membuat silau seluruh ruangan, sebuah ledakan pun terjadi membuat sang raja dan pasukannya terpental kembali menuju halaman istana dengan pasukan besar kerajaan Suratanagara.</p>
+            <p>Kini Kain Samatva telah terbagi menjadi dua, Kedua kain tersebut bersinar lembut lalu bergerak menuju aran dan Putri Litik, Salah satu kain menuju putri Litik dan membungkus badannya sedangkan salah satunya lagi menuju aran membungkus pinggang hingga betisnya, perlahan cahaya itu meredup dan memperlihatkan pola kain yang baru.</p>
+            <p>Putri Litik mengangkat kedua tangannya dan tiba-tiba langit bergetar, membuat sebuah pola, pola yang menjadi pertanda diulangnya sebuah siklus ratusan tahun lalu. Sedangkan Aran menjulurkan tangannya, Tombaknya yang terletak jauh darinya bergetar dan tertarik menuju genggamannya. Ia lalu berlari hingga kebalkon istana dan melompat menuju halaman istana dimana disana seluruh pasukan tempur suratanagara telah berkumpul, Mata tombaknya terjun bebas menyeramkan, beberapa percikan petir keluar dari mata tombaknya hingga akhirnya tombaknya menabrak keras tanah membuat daratan seketika bergetar hebat, tanah tempat tombak aran tertanam mulai merekah dan perlahan melebar menelan pasukan tempur suratanagara. Hal itu membuat seluruh pasukan kocar-kacir. Namun pada akhirnya seluruh pasukan suratanagara yang dibutakan oleh kekuatan dan keegoisan akhirnya tertelan oleh rekahan tanah tersebut.</p>
+            <p>Setelah peperangan itu perlahan kondisi kerajaan Klatrawijaya membaik, berkat keberaniannya, Aran diangkat menjadi panglima tempur kerajaan Klatrawijaya dan disaat yang bersamaan Putri Litik diangkat menjadi putri Mahkota kerajaan Klatrawijaya, para penduduk klatrawijaya menamai kain yang dipakai oleh putri litik sebagai Parang klitik selain Karena kain itu dipakai putri litik dan dibelah menggunakan parang, Kain itu juga representasi dari kelembutan, keanggunan dan keagungan. Sedangkan kain yang digunakan aran dinamakan dengan Parang rusak, karena kain itu adalah sisa dari samatva yang dirobek menggunakan parang sehingga terlihat seperti rusak, kain ini adalah representasi dari Kekuatan, Ketangguhan dan Keinginan kuat.</p>
+            <p>Bersama-sama Putri litik dana Aran menjaga dua pusakanya dan kejayaan kerajaan Klatrawijaya dari seluruh bahaya yang mencoba mengganggu kerajaan mereka</p>
+            <div class="cerpen-divider">❖ ❖ ❖</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <h3>Parang Klitik</h3>
+          </div>
+          <hr class="footer-separator" />
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p>
+              &copy; 2025 <span>Parang Klitik</span> | Kelompok 1 IDKS Kelas A.
+            </p>
+          </div>
+          <div class="social-icons">
+            <a
+              href="https://www.instagram.com/parangklitik_a?igsh=anJicDUwN3h0eWJ6"
+            >
+              <img src="Instagram.png" alt="Instagram" />
+            </a>
+            <a href="https://www.facebook.com/share/1QH4kfa35H/">
+              <img src="Facebook.png" alt="Facebook" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const menuToggle = document.querySelector(".menu-toggle");
+      const nav = document.querySelector("nav");
+      const overlay = document.getElementById("menuOverlay");
+
+      menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("active");
+        overlay.classList.toggle("active");
+      });
+
+      overlay.addEventListener("click", () => {
+        nav.classList.remove("active");
+        overlay.classList.remove("active");
+      });
+
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.querySelector(".loading-screen").style.opacity = "0";
+          setTimeout(function () {
+            document.querySelector(".loading-screen").style.display = "none";
+          }, 500);
+        }, 800);
+      });
+    </script>
+  </body>
+</html>
